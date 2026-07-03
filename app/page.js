@@ -596,6 +596,191 @@
     <script src="js/editor.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarifs - FootPoster Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap)" rel="stylesheet">
+    <link rel="stylesheet" href="[cdnjs.cloudflare.com](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css)">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-futbol"></i>
+                <span>FootPoster Pro</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#features">Fonctionnalités</a></li>
+                <li><a href="index.html#templates">Modèles</a></li>
+                <li><a href="pricing.html" class="active">Tarifs</a></li>
+            </ul>
+            <div class="nav-auth">
+                <button class="btn btn-outline" onclick="openModal('loginModal')">Connexion</button>
+                <button class="btn btn-primary" onclick="openModal('signupModal')">Essai Gratuit</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Pricing Section -->
+    <section class="pricing-page">
+        <div class="container">
+            <h1>Un tarif simple et transparent</h1>
+            <p class="pricing-subtitle">Tout ce dont votre club a besoin, sans surprise</p>
+
+            <div class="pricing-cards">
+                <div class="pricing-card featured">
+                    <div class="card-badge">Le plus populaire</div>
+                    <div class="card-header">
+                        <h2>Club Pro</h2>
+                        <div class="price-tag">
+                            <span class="currency">€</span>
+                            <span class="amount">12</span>
+                            <span class="period">/mois</span>
+                        </div>
+                        <p class="billing-info">Facturé mensuellement • Annulez à tout moment</p>
+                    </div>
+                    
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Affiches illimitées</li>
+                        <li><i class="fas fa-check"></i> 50+ modèles professionnels</li>
+                        <li><i class="fas fa-check"></i> Import d'images illimité</li>
+                        <li><i class="fas fa-check"></i> Export HD (PNG, JPG, PDF)</li>
+                        <li><i class="fas fa-check"></i> Couleurs personnalisées du club</li>
+                        <li><i class="fas fa-check"></i> Sauvegarde cloud illimitée</li>
+                        <li><i class="fas fa-check"></i> Support prioritaire</li>
+                        <li><i class="fas fa-check"></i> Nouveaux modèles chaque mois</li>
+                    </ul>
+
+                    <button class="btn btn-primary btn-lg btn-full" onclick="startSubscription()">
+                        Commencer l'essai gratuit de 7 jours
+                    </button>
+                    <p class="card-footer">Aucune carte requise pour l'essai</p>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-section">
+                <h2>Questions fréquentes</h2>
+                
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span>Comment fonctionne l'essai gratuit ?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Vous bénéficiez de 7 jours d'accès complet à toutes les fonctionnalités, sans engagement. Aucune carte bancaire n'est requise pour commencer. À la fin de l'essai, vous pouvez choisir de vous abonner pour continuer.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span>Puis-je annuler à tout moment ?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Oui, vous pouvez annuler votre abonnement à tout moment depuis votre tableau de bord. Vous conserverez l'accès jusqu'à la fin de votre période de facturation en cours.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span>Quels moyens de paiement acceptez-vous ?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Nous acceptons toutes les cartes bancaires (Visa, Mastercard, American Express) via notre partenaire de paiement sécurisé Stripe. Le prélèvement SEPA est également disponible.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span>Combien d'affiches puis-je créer ?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Il n'y a aucune limite ! Créez autant d'affiches que vous le souhaitez, importez autant d'images que nécessaire, et exportez en haute définition sans restriction.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            <span>Proposez-vous des tarifs pour plusieurs clubs ?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Oui ! Pour les associations ou ligues gérant plusieurs clubs, contactez-nous pour un tarif de groupe avantageux.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 FootPoster Pro. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals from index.html -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('loginModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2>Connexion</h2>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required placeholder="votre@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Mot de passe</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Se connecter</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('signupModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2>Créer un compte</h2>
+            <p class="modal-subtitle">7 jours d'essai gratuit, puis 12€/mois</p>
+            <form id="signupForm" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label for="clubName">Nom du club</label>
+                    <input type="text" id="clubName" required placeholder="FC Exemple">
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required placeholder="contact@club.com">
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Mot de passe</label>
+                    <input type="password" id="signupPassword" required placeholder="Min. 8 caractères">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Commencer l'essai gratuit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
 
 
 
