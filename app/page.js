@@ -330,6 +330,272 @@
     <script src="js/auth.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Éditeur - FootPoster Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap)" rel="stylesheet">
+    <link rel="stylesheet" href="[cdnjs.cloudflare.com](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css)">
+</head>
+<body class="editor-page">
+    <!-- Editor Header -->
+    <header class="editor-header">
+        <div class="editor-nav">
+            <a href="dashboard.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Retour</span>
+            </a>
+            <div class="project-name">
+                <input type="text" id="projectName" value="Nouvelle Affiche" class="project-input">
+            </div>
+            <div class="editor-actions">
+                <button class="btn btn-outline" onclick="savePoster()">
+                    <i class="fas fa-save"></i> Sauvegarder
+                </button>
+                <button class="btn btn-primary" onclick="exportPoster()">
+                    <i class="fas fa-download"></i> Exporter
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="editor-container">
+        <!-- Left Sidebar - Tools -->
+        <aside class="editor-sidebar left-sidebar">
+            <div class="sidebar-section">
+                <h3>Modèles</h3>
+                <div class="templates-list">
+                    <div class="template-thumb" onclick="loadTemplate('match')">
+                        <i class="fas fa-futbol"></i>
+                        <span>Match</span>
+                    </div>
+                    <div class="template-thumb" onclick="loadTemplate('recruitment')">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Recrutement</span>
+                    </div>
+                    <div class="template-thumb" onclick="loadTemplate('results')">
+                        <i class="fas fa-trophy"></i>
+                        <span>Résultats</span>
+                    </div>
+                    <div class="template-thumb" onclick="loadTemplate('event')">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Événement</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Éléments</h3>
+                <div class="elements-list">
+                    <button class="element-btn" onclick="addElement('text')">
+                        <i class="fas fa-font"></i>
+                        <span>Texte</span>
+                    </button>
+                    <button class="element-btn" onclick="addElement('image')">
+                        <i class="fas fa-image"></i>
+                        <span>Image</span>
+                    </button>
+                    <button class="element-btn" onclick="addElement('shape')">
+                        <i class="fas fa-shapes"></i>
+                        <span>Forme</span>
+                    </button>
+                    <button class="element-btn" onclick="addElement('icon')">
+                        <i class="fas fa-icons"></i>
+                        <span>Icône</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Import</h3>
+                <div class="import-zone">
+                    <input type="file" id="imageUpload" accept="image/*" multiple hidden>
+                    <button class="import-btn" onclick="document.getElementById('imageUpload').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Importer des images</span>
+                    </button>
+                    <div id="uploadedImages" class="uploaded-images"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Canvas Area -->
+        <main class="editor-canvas-area">
+            <div class="canvas-controls">
+                <button onclick="zoomOut()" title="Zoom arrière">
+                    <i class="fas fa-search-minus"></i>
+                </button>
+                <span id="zoomLevel">100%</span>
+                <button onclick="zoomIn()" title="Zoom avant">
+                    <i class="fas fa-search-plus"></i>
+                </button>
+                <button onclick="resetZoom()" title="Réinitialiser">
+                    <i class="fas fa-undo"></i>
+                </button>
+            </div>
+            
+            <div class="canvas-wrapper" id="canvasWrapper">
+                <div class="poster-canvas" id="posterCanvas">
+                    <!-- Dynamic content will be added here -->
+                    <div class="canvas-placeholder">
+                        <i class="fas fa-plus-circle"></i>
+                        <p>Sélectionnez un modèle ou ajoutez des éléments</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar - Properties -->
+        <aside class="editor-sidebar right-sidebar">
+            <div class="sidebar-section">
+                <h3>Propriétés du poster</h3>
+                <div class="property-group">
+                    <label>Format</label>
+                    <select id="posterFormat" onchange="changePosterFormat()">
+                        <option value="portrait">Portrait (A4)</option>
+                        <option value="landscape">Paysage (A4)</option>
+                        <option value="square">Carré (Instagram)</option>
+                        <option value="story">Story (9:16)</option>
+                    </select>
+                </div>
+                <div class="property-group">
+                    <label>Couleur de fond</label>
+                    <div class="color-picker-wrapper">
+                        <input type="color" id="bgColor" value="#1a1a2e" onchange="changeBgColor()">
+                        <input type="text" id="bgColorText" value="#1a1a2e" onchange="changeBgColorText()">
+                    </div>
+                </div>
+            </div>
+
+            <div id="elementProperties" class="sidebar-section" style="display: none;">
+                <h3>Élément sélectionné</h3>
+                
+                <!-- Text Properties -->
+                <div id="textProperties" class="properties-panel">
+                    <div class="property-group">
+                        <label>Texte</label>
+                        <input type="text" id="textContent" placeholder="Votre texte" oninput="updateTextContent()">
+                    </div>
+                    <div class="property-group">
+                        <label>Police</label>
+                        <select id="fontFamily" onchange="updateFontFamily()">
+                            <option value="Poppins">Poppins</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Impact">Impact</option>
+                            <option value="Georgia">Georgia</option>
+                        </select>
+                    </div>
+                    <div class="property-row">
+                        <div class="property-group half">
+                            <label>Taille</label>
+                            <input type="number" id="fontSize" value="24" onchange="updateFontSize()">
+                        </div>
+                        <div class="property-group half">
+                            <label>Couleur</label>
+                            <input type="color" id="textColor" value="#ffffff" onchange="updateTextColor()">
+                        </div>
+                    </div>
+                    <div class="property-group">
+                        <label>Style</label>
+                        <div class="style-buttons">
+                            <button id="boldBtn" onclick="toggleBold()"><i class="fas fa-bold"></i></button>
+                            <button id="italicBtn" onclick="toggleItalic()"><i class="fas fa-italic"></i></button>
+                            <button id="underlineBtn" onclick="toggleUnderline()"><i class="fas fa-underline"></i></button>
+                        </div>
+                    </div>
+                    <div class="property-group">
+                        <label>Alignement</label>
+                        <div class="align-buttons">
+                            <button onclick="alignText('left')"><i class="fas fa-align-left"></i></button>
+                            <button onclick="alignText('center')"><i class="fas fa-align-center"></i></button>
+                            <button onclick="alignText('right')"><i class="fas fa-align-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Properties -->
+                <div id="imageProperties" class="properties-panel" style="display: none;">
+                    <div class="property-group">
+                        <label>Opacité</label>
+                        <input type="range" id="imageOpacity" min="0" max="100" value="100" oninput="updateImageOpacity()">
+                    </div>
+                    <div class="property-group">
+                        <label>Bordure arrondie</label>
+                        <input type="range" id="imageBorderRadius" min="0" max="50" value="0" oninput="updateImageBorderRadius()">
+                    </div>
+                </div>
+
+                <div class="property-group">
+                    <label>Position</label>
+                    <div class="property-row">
+                        <div class="property-group half">
+                            <label>X</label>
+                            <input type="number" id="posX" onchange="updatePosition()">
+                        </div>
+                        <div class="property-group half">
+                            <label>Y</label>
+                            <input type="number" id="posY" onchange="updatePosition()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="property-actions">
+                    <button class="btn btn-outline btn-small" onclick="duplicateElement()">
+                        <i class="fas fa-copy"></i> Dupliquer
+                    </button>
+                    <button class="btn btn-danger btn-small" onclick="deleteElement()">
+                        <i class="fas fa-trash"></i> Supprimer
+                    </button>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Calques</h3>
+                <div id="layersList" class="layers-list">
+                    <p class="empty-state">Aucun élément</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Export Modal -->
+    <div id="exportModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('exportModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2>Exporter votre affiche</h2>
+            <div class="export-options">
+                <div class="export-option" onclick="downloadPoster('png')">
+                    <i class="fas fa-file-image"></i>
+                    <h4>PNG</h4>
+                    <p>Haute qualité, fond transparent</p>
+                </div>
+                <div class="export-option" onclick="downloadPoster('jpg')">
+                    <i class="fas fa-file-image"></i>
+                    <h4>JPG</h4>
+                    <p>Taille réduite, idéal web</p>
+                </div>
+                <div class="export-option" onclick="downloadPoster('pdf')">
+                    <i class="fas fa-file-pdf"></i>
+                    <h4>PDF</h4>
+                    <p>Prêt pour l'impression</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file input for images -->
+    <input type="file" id="addImageInput" accept="image/*" hidden>
+
+    <script src="[cdnjs.cloudflare.com](https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js)"></script>
+    <script src="[cdnjs.cloudflare.com](https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js)"></script>
+    <script src="js/editor.js"></script>
+</body>
+</html>
 
 
 
